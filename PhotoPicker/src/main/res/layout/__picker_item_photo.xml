@@ -2,8 +2,9 @@
 <me.iwf.photopicker.widget.SquareItemLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
-  <ImageView
+    xmlns:fresco="http://schemas.android.com/apk/res-auto">
+
+  <com.facebook.drawee.view.SimpleDraweeView
       android:padding="1dip"
       android:layout_gravity="center"
       android:id="@+id/iv_photo"
@@ -12,6 +13,9 @@
       android:background="@drawable/__picker_photo_bg"
       android:layout_height="match_parent"
       android:adjustViewBounds="true"
+      fresco:placeholderImage="@drawable/__picker_ic_photo_black_48dp"
+      fresco:failureImage="@drawable/__picker_ic_broken_image_black_48dp"
+
       />
 
   <ImageView

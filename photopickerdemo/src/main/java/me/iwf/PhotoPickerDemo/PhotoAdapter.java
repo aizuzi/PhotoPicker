@@ -6,10 +6,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import com.bumptech.glide.Glide;
+
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.backends.pipeline.PipelineDraweeController;
+import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.imagepipeline.request.ImageRequest;
+import com.facebook.imagepipeline.request.ImageRequestBuilder;
+
 import java.io.File;
 import java.util.ArrayList;
+
 import me.iwf.photopicker.R;
 
 /**
@@ -42,13 +48,16 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
 
     Uri uri = Uri.fromFile(new File(photoPaths.get(position)));
 
-    Glide.with(mContext)
-        .load(uri)
-        .centerCrop()
-        .thumbnail(0.1f)
-        .placeholder(R.drawable.__picker_ic_photo_black_48dp)
-        .error(R.drawable.__picker_ic_broken_image_black_48dp)
-        .into(holder.ivPhoto);
+    ImageRequest request = ImageRequestBuilder
+            .newBuilderWithSource(uri)
+            .setAutoRotateEnabled(true)
+            .build();
+    PipelineDraweeController controller = (PipelineDraweeController) Fresco.newDraweeControllerBuilder()
+            .setOldController(holder.ivPhoto.getController())
+            .setImageRequest(request)
+            .setAutoPlayAnimations(true)
+            .build();
+    holder.ivPhoto.setController(controller);
   }
 
 
@@ -58,11 +67,11 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
 
 
   public static class PhotoViewHolder extends RecyclerView.ViewHolder {
-    private ImageView ivPhoto;
+    private SimpleDraweeView ivPhoto;
     private View vSelected;
     public PhotoViewHolder(View itemView) {
       super(itemView);
-      ivPhoto   = (ImageView) itemView.findViewById(R.id.iv_photo);
+      ivPhoto   = (SimpleDraweeView) itemView.findViewById(R.id.iv_photo);
       vSelected = itemView.findViewById(R.id.v_selected);
       vSelected.setVisibility(View.GONE);
     }

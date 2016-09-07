@@ -2,18 +2,28 @@ package me.iwf.photopicker.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.drawable.Animatable;
 import android.net.Uri;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.RequestManager;
+
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.backends.pipeline.PipelineDraweeControllerBuilder;
+import com.facebook.drawee.controller.BaseControllerListener;
+import com.facebook.imagepipeline.common.ResizeOptions;
+import com.facebook.imagepipeline.image.ImageInfo;
+import com.facebook.imagepipeline.request.ImageRequest;
+import com.facebook.imagepipeline.request.ImageRequestBuilder;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
 import me.iwf.photopicker.R;
+import me.iwf.photopicker.widget.photoDraweeView.OnPhotoTapListener;
+import me.iwf.photopicker.widget.photoDraweeView.PhotoDraweeView;
 
 /**
  * Created by donglua on 15/6/21.
@@ -21,11 +31,9 @@ import me.iwf.photopicker.R;
 public class PhotoPagerAdapter extends PagerAdapter {
 
   private List<String> paths = new ArrayList<>();
-  private RequestManager mGlide;
 
-  public PhotoPagerAdapter(RequestManager glide, List<String> paths) {
+  public PhotoPagerAdapter(List<String> paths) {
     this.paths = paths;
-    this.mGlide = glide;
   }
 
   @Override public Object instantiateItem(ViewGroup container, int position) {
@@ -33,7 +41,7 @@ public class PhotoPagerAdapter extends PagerAdapter {
     View itemView = LayoutInflater.from(context)
         .inflate(R.layout.__picker_picker_item_pager, container, false);
 
-    final ImageView imageView = (ImageView) itemView.findViewById(R.id.iv_pager);
+    final PhotoDraweeView imageView = (PhotoDraweeView) itemView.findViewById(R.id.iv_pager);
 
     final String path = paths.get(position);
     final Uri uri;
@@ -42,17 +50,32 @@ public class PhotoPagerAdapter extends PagerAdapter {
     } else {
       uri = Uri.fromFile(new File(path));
     }
-    mGlide.load(uri)
-        .thumbnail(0.1f)
-        .dontAnimate()
-        .dontTransform()
-        .override(800, 800)
-        .placeholder(R.drawable.__picker_ic_photo_black_48dp)
-        .error(R.drawable.__picker_ic_broken_image_black_48dp)
-        .into(imageView);
 
-    imageView.setOnClickListener(new View.OnClickListener() {
-      @Override public void onClick(View view) {
+    ImageRequest request = ImageRequestBuilder
+        .newBuilderWithSource(uri)
+        .setResizeOptions(new ResizeOptions(1000, 1000))
+        .setAutoRotateEnabled(true)
+        .build();
+    PipelineDraweeControllerBuilder controller = Fresco.newDraweeControllerBuilder()
+            .setImageRequest(request)
+            .setOldController(imageView.getController())
+            .setAutoPlayAnimations(true)
+            .setControllerListener(new BaseControllerListener<ImageInfo>() {
+                @Override
+                public void onFinalImageSet(String id, ImageInfo imageInfo, Animatable animatable) {
+                  super.onFinalImageSet(id, imageInfo, animatable);
+                  if (imageInfo == null) {
+                    return;
+                  }
+                  imageView.update(imageInfo.getWidth(), imageInfo.getHeight());
+                }
+              });
+
+    imageView.setController(controller.build());
+
+    imageView.setOnPhotoTapListener(new OnPhotoTapListener() {
+      @Override
+      public void onPhotoTap(View view, float x, float y) {
         if (context instanceof Activity) {
           if (!((Activity) context).isFinishing()) {
             ((Activity) context).onBackPressed();
@@ -80,7 +103,6 @@ public class PhotoPagerAdapter extends PagerAdapter {
   @Override
   public void destroyItem(ViewGroup container, int position, Object object) {
     container.removeView((View) object);
-    Glide.clear((View) object);
   }
 
   @Override

@@ -1,14 +1,23 @@
 package me.iwf.photopicker.adapter;
 
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
-import com.bumptech.glide.RequestManager;
+
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.backends.pipeline.PipelineDraweeController;
+import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.imagepipeline.common.ResizeOptions;
+import com.facebook.imagepipeline.request.ImageRequest;
+import com.facebook.imagepipeline.request.ImageRequestBuilder;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
 import me.iwf.photopicker.R;
 import me.iwf.photopicker.entity.PhotoDirectory;
 
@@ -19,11 +28,9 @@ public class PopupDirectoryListAdapter extends BaseAdapter {
 
 
   private List<PhotoDirectory> directories = new ArrayList<>();
-  private RequestManager glide;
 
-  public PopupDirectoryListAdapter(RequestManager glide, List<PhotoDirectory> directories) {
+  public PopupDirectoryListAdapter(List<PhotoDirectory> directories) {
     this.directories = directories;
-    this.glide = glide;
   }
 
 
@@ -60,21 +67,31 @@ public class PopupDirectoryListAdapter extends BaseAdapter {
 
   private class ViewHolder {
 
-    public ImageView ivCover;
+    public SimpleDraweeView ivCover;
     public TextView tvName;
     public TextView tvCount;
 
     public ViewHolder(View rootView) {
-      ivCover = (ImageView) rootView.findViewById(R.id.iv_dir_cover);
+      ivCover = (SimpleDraweeView) rootView.findViewById(R.id.iv_dir_cover);
       tvName  = (TextView)  rootView.findViewById(R.id.tv_dir_name);
       tvCount = (TextView)  rootView.findViewById(R.id.tv_dir_count);
     }
 
     public void bindData(PhotoDirectory directory) {
-      glide.load(directory.getCoverPath())
-          .dontAnimate()
-          .thumbnail(0.1f)
-          .into(ivCover);
+      Uri uri = Uri.fromFile(new File(directory.getCoverPath()));
+      ImageRequest request = ImageRequestBuilder
+              .newBuilderWithSource(uri)
+              .setResizeOptions(new ResizeOptions(180,180))
+              .setAutoRotateEnabled(true)
+              .build();
+      PipelineDraweeController controller = (PipelineDraweeController) Fresco.newDraweeControllerBuilder()
+              .setOldController(ivCover.getController())
+              .setImageRequest(request)
+              .setAutoPlayAnimations(true)
+              .build();
+      ivCover.setController(controller);
+
+
       tvName.setText(directory.getName());
       tvCount.setText(tvCount.getContext().getString(R.string.__picker_image_count, directory.getPhotos().size()));
     }

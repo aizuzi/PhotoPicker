@@ -10,6 +10,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.imagepipeline.core.ImagePipelineConfig;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,6 +50,13 @@ public class PhotoPickerActivity extends AppCompatActivity {
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+
+    if(!Fresco.hasBeenInitialized()){
+      ImagePipelineConfig config = ImagePipelineConfig.newBuilder(getApplicationContext())
+              .setDownsampleEnabled(true)
+              .build();
+      Fresco.initialize(getApplicationContext(), config);
+    }
 
     boolean showCamera      = getIntent().getBooleanExtra(EXTRA_SHOW_CAMERA, true);
     boolean showGif         = getIntent().getBooleanExtra(EXTRA_SHOW_GIF, false);
@@ -135,7 +145,7 @@ public class PhotoPickerActivity extends AppCompatActivity {
     this.imagePagerFragment = imagePagerFragment;
     getSupportFragmentManager()
         .beginTransaction()
-        .replace(R.id.container, this.imagePagerFragment)
+        .add(R.id.container, this.imagePagerFragment)
         .addToBackStack(null)
         .commit();
   }

@@ -7,13 +7,13 @@
     <!--android:fillViewport="true"-->
     <!--&gt;-->
 
-  <me.iwf.photopicker.widget.TouchImageView
-      xmlns:android="http://schemas.android.com/apk/res/android"
-      android:gravity="center"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:src="@drawable/__picker_ic_photo_black_48dp"
-      android:id="@+id/iv_pager"
-      />
+<me.iwf.photopicker.widget.photoDraweeView.PhotoDraweeView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/iv_pager"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:placeholderImage="@drawable/__picker_ic_photo_black_48dp"
+    app:placeholderImageScaleType="fitCenter" />
 
 <!--</ScrollView>-->

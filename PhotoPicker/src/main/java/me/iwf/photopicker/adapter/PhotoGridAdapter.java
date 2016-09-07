@@ -1,6 +1,7 @@
 package me.iwf.photopicker.adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -8,11 +9,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.RequestManager;
+
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.backends.pipeline.PipelineDraweeController;
+import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.imagepipeline.common.ResizeOptions;
+import com.facebook.imagepipeline.request.ImageRequest;
+import com.facebook.imagepipeline.request.ImageRequestBuilder;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
 import me.iwf.photopicker.R;
 import me.iwf.photopicker.entity.Photo;
 import me.iwf.photopicker.entity.PhotoDirectory;
@@ -26,7 +34,6 @@ import me.iwf.photopicker.utils.MediaStoreHelper;
 public class PhotoGridAdapter extends SelectableAdapter<PhotoGridAdapter.PhotoViewHolder> {
 
   private LayoutInflater inflater;
-  private RequestManager glide;
 
   private OnItemCheckListener onItemCheckListener    = null;
   private OnPhotoClickListener onPhotoClickListener  = null;
@@ -43,15 +50,14 @@ public class PhotoGridAdapter extends SelectableAdapter<PhotoGridAdapter.PhotoVi
   private int columnNumber = COL_NUMBER_DEFAULT;
 
 
-  public PhotoGridAdapter(Context context, RequestManager requestManager, List<PhotoDirectory> photoDirectories) {
+  public PhotoGridAdapter(Context context,List<PhotoDirectory> photoDirectories) {
     this.photoDirectories = photoDirectories;
-    this.glide = requestManager;
     inflater = LayoutInflater.from(context);
     setColumnNumber(context, columnNumber);
   }
 
-  public PhotoGridAdapter(Context context, RequestManager requestManager,  List<PhotoDirectory> photoDirectories, ArrayList<String> orginalPhotos, int colNum) {
-    this(context, requestManager, photoDirectories);
+  public PhotoGridAdapter(Context context,List<PhotoDirectory> photoDirectories, ArrayList<String> orginalPhotos, int colNum) {
+    this(context, photoDirectories);
     setColumnNumber(context, colNum);
     selectedPhotos = new ArrayList<>();
     if (orginalPhotos != null) selectedPhotos.addAll(orginalPhotos);
@@ -103,15 +109,18 @@ public class PhotoGridAdapter extends SelectableAdapter<PhotoGridAdapter.PhotoVi
         photo = photos.get(position);
       }
 
-      glide
-          .load(new File(photo.getPath()))
-          .centerCrop()
-          .dontAnimate()
-          .thumbnail(0.5f)
-          .override(imageSize, imageSize)
-          .placeholder(R.drawable.__picker_ic_photo_black_48dp)
-          .error(R.drawable.__picker_ic_broken_image_black_48dp)
-          .into(holder.ivPhoto);
+      Uri uri = Uri.fromFile(new File(photo.getPath()));
+      ImageRequest request = ImageRequestBuilder
+              .newBuilderWithSource(uri)
+              .setResizeOptions(new ResizeOptions(imageSize, imageSize))
+              .setAutoRotateEnabled(true)
+              .build();
+      PipelineDraweeController controller = (PipelineDraweeController) Fresco.newDraweeControllerBuilder()
+              .setOldController(holder.ivPhoto.getController())
+              .setImageRequest(request)
+              .setAutoPlayAnimations(true)
+              .build();
+      holder.ivPhoto.setController(controller);
 
       final boolean isChecked = isSelected(photo);
 
@@ -147,7 +156,7 @@ public class PhotoGridAdapter extends SelectableAdapter<PhotoGridAdapter.PhotoVi
       });
 
     } else {
-      holder.ivPhoto.setImageResource(R.drawable.__picker_camera);
+      holder.ivPhoto.setImageURI(Uri.parse("res:///" + R.drawable.__picker_camera));
     }
   }
 
@@ -163,12 +172,12 @@ public class PhotoGridAdapter extends SelectableAdapter<PhotoGridAdapter.PhotoVi
 
 
   public static class PhotoViewHolder extends RecyclerView.ViewHolder {
-    private ImageView ivPhoto;
+    private SimpleDraweeView ivPhoto;
     private View vSelected;
 
     public PhotoViewHolder(View itemView) {
       super(itemView);
-      ivPhoto   = (ImageView) itemView.findViewById(R.id.iv_photo);
+      ivPhoto   = (SimpleDraweeView) itemView.findViewById(R.id.iv_photo);
       vSelected = itemView.findViewById(R.id.v_selected);
     }
   }
@@ -213,7 +222,6 @@ public class PhotoGridAdapter extends SelectableAdapter<PhotoGridAdapter.PhotoVi
   }
 
   @Override public void onViewRecycled(PhotoViewHolder holder) {
-    Glide.clear(holder.ivPhoto);
     super.onViewRecycled(holder);
   }
 }

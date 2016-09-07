@@ -12,16 +12,19 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
-import com.bumptech.glide.Glide;
+
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.nineoldandroids.view.ViewHelper;
 import com.nineoldandroids.view.ViewPropertyAnimator;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import me.iwf.photopicker.R;
 import me.iwf.photopicker.adapter.PhotoPagerAdapter;
+import me.iwf.photopicker.widget.MultiTouchViewPager;
 
 /**
  * Created by donglua on 15/6/21.
@@ -32,7 +35,7 @@ public class ImagePagerFragment extends Fragment {
   public final static String ARG_CURRENT_ITEM = "ARG_CURRENT_ITEM";
 
   private ArrayList<String> paths;
-  private ViewPager mViewPager;
+  private MultiTouchViewPager mViewPager;
   private PhotoPagerAdapter mPagerAdapter;
 
   public final static long ANIM_DURATION = 200L;
@@ -117,7 +120,7 @@ public class ImagePagerFragment extends Fragment {
       thumbnailHeight = bundle.getInt(ARG_THUMBNAIL_HEIGHT);
     }
 
-    mPagerAdapter = new PhotoPagerAdapter(Glide.with(this), paths);
+    mPagerAdapter = new PhotoPagerAdapter(paths);
   }
 
 
@@ -126,10 +129,10 @@ public class ImagePagerFragment extends Fragment {
 
     View rootView = inflater.inflate(R.layout.__picker_picker_fragment_image_pager, container, false);
 
-    mViewPager = (ViewPager) rootView.findViewById(R.id.vp_photos);
+    mViewPager = (MultiTouchViewPager) rootView.findViewById(R.id.vp_photos);
     mViewPager.setAdapter(mPagerAdapter);
     mViewPager.setCurrentItem(currentItem);
-    mViewPager.setOffscreenPageLimit(5);
+    mViewPager.setOffscreenPageLimit(1);
 
     // Only run the animation if we're coming from the parent activity, not if
     // we're recreated automatically by the window manager (e.g., device rotation)
