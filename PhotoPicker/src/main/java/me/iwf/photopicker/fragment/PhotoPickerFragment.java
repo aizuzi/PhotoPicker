@@ -16,6 +16,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -182,6 +184,24 @@ public class PhotoPickerFragment extends Fragment {
         } else if (!getActivity().isFinishing()) {
           adjustHeight();
           listPopupWindow.show();
+        }
+      }
+    });
+
+
+    recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+      @Override public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+        super.onScrolled(recyclerView, dx, dy);
+        // Log.d(">>> Picker >>>", "dy = " + dy);
+        if (Math.abs(dy) > SCROLL_THRESHOLD) {
+          Fresco.getImagePipeline().pause();
+        } else {
+          Fresco.getImagePipeline().resume();
+        }
+      }
+      @Override public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+        if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+          Fresco.getImagePipeline().resume();
         }
       }
     });
