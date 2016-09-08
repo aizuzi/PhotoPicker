@@ -12,6 +12,8 @@ import android.widget.ImageView;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.backends.pipeline.PipelineDraweeController;
+import com.facebook.drawee.generic.GenericDraweeHierarchy;
+import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.facebook.imagepipeline.common.ResizeOptions;
 import com.facebook.imagepipeline.request.ImageRequest;
@@ -160,7 +162,13 @@ public class PhotoGridAdapter extends SelectableAdapter<PhotoGridAdapter.PhotoVi
       });
 
     } else {
-      holder.ivPhoto.setImageURI(Uri.parse("res:///" + R.drawable.__picker_camera));
+      GenericDraweeHierarchyBuilder builder =
+              new GenericDraweeHierarchyBuilder(holder.ivPhoto.getResources());
+      GenericDraweeHierarchy hierarchy = builder
+              .setPlaceholderImage(R.drawable.__picker_camera)
+              .build();
+      holder.ivPhoto.setHierarchy(hierarchy);
+      holder.ivPhoto.setImageURI(Uri.EMPTY);
     }
   }
 
