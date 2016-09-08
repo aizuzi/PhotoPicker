@@ -22,8 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.iwf.photopicker.R;
-import me.iwf.photopicker.widget.photoDraweeView.OnPhotoTapListener;
-import me.iwf.photopicker.widget.photoDraweeView.PhotoDraweeView;
+import me.relex.photodraweeview.OnPhotoTapListener;
+import me.relex.photodraweeview.PhotoDraweeView;
 
 /**
  * Created by donglua on 15/6/21.
