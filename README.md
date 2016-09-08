@@ -28,7 +28,7 @@
 
 ```groovy
 dependencies {
-    compile 'me.iwf.photopicker:PhotoPicker:0.8.10@aar'
+    compile 'cn.2crazy:FrescoPhotoPicker:0.8.10.1'
     
     compile 'com.android.support:appcompat-v7:23.4.0'
     compile 'com.android.support:recyclerview-v7:23.4.0'
@@ -42,6 +42,14 @@ dependencies {
 
 ### eclipse
 [![GO HOME](http://ww4.sinaimg.cn/large/5e9a81dbgw1eu90m08v86j20dw09a3yu.jpg)
+
+### Init Fresco
+```java
+ImagePipelineConfig config = ImagePipelineConfig.newBuilder(getApplicationContext())
+    .setDownsampleEnabled(true)// This option can help prove the performance.
+    .build();
+Fresco.initialize(getApplicationContext(), config);
+```
 
 ### Pick Photo
 ```java
