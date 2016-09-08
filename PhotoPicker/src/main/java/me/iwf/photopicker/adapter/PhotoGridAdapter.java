@@ -26,6 +26,7 @@ import me.iwf.photopicker.entity.Photo;
 import me.iwf.photopicker.entity.PhotoDirectory;
 import me.iwf.photopicker.event.OnItemCheckListener;
 import me.iwf.photopicker.event.OnPhotoClickListener;
+import me.iwf.photopicker.utils.AndroidLifecycleUtils;
 import me.iwf.photopicker.utils.MediaStoreHelper;
 
 /**
@@ -109,18 +110,21 @@ public class PhotoGridAdapter extends SelectableAdapter<PhotoGridAdapter.PhotoVi
         photo = photos.get(position);
       }
 
-      Uri uri = Uri.fromFile(new File(photo.getPath()));
-      ImageRequest request = ImageRequestBuilder
-              .newBuilderWithSource(uri)
-              .setResizeOptions(new ResizeOptions(imageSize, imageSize))
-              .setAutoRotateEnabled(true)
-              .build();
-      PipelineDraweeController controller = (PipelineDraweeController) Fresco.newDraweeControllerBuilder()
-              .setOldController(holder.ivPhoto.getController())
-              .setImageRequest(request)
-              .setAutoPlayAnimations(true)
-              .build();
-      holder.ivPhoto.setController(controller);
+      boolean canLoadImage = AndroidLifecycleUtils.canLoadImage(holder.ivPhoto.getContext());
+      if(canLoadImage) {
+        Uri uri = Uri.fromFile(new File(photo.getPath()));
+        ImageRequest request = ImageRequestBuilder
+                .newBuilderWithSource(uri)
+                .setResizeOptions(new ResizeOptions(imageSize, imageSize))
+                .setAutoRotateEnabled(true)
+                .build();
+        PipelineDraweeController controller = (PipelineDraweeController) Fresco.newDraweeControllerBuilder()
+                .setOldController(holder.ivPhoto.getController())
+                .setImageRequest(request)
+                .setAutoPlayAnimations(true)
+                .build();
+        holder.ivPhoto.setController(controller);
+      }
 
       final boolean isChecked = isSelected(photo);
 

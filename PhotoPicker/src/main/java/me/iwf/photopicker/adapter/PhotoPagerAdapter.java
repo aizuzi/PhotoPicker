@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.iwf.photopicker.R;
+import me.iwf.photopicker.utils.AndroidLifecycleUtils;
 import me.relex.photodraweeview.OnPhotoTapListener;
 import me.relex.photodraweeview.PhotoDraweeView;
 
@@ -51,16 +52,18 @@ public class PhotoPagerAdapter extends PagerAdapter {
       uri = Uri.fromFile(new File(path));
     }
 
-    ImageRequest request = ImageRequestBuilder
-        .newBuilderWithSource(uri)
-        .setResizeOptions(new ResizeOptions(1000, 1000))
-        .setAutoRotateEnabled(true)
-        .build();
-    PipelineDraweeControllerBuilder controller = Fresco.newDraweeControllerBuilder()
-            .setImageRequest(request)
-            .setOldController(imageView.getController())
-            .setAutoPlayAnimations(true)
-            .setControllerListener(new BaseControllerListener<ImageInfo>() {
+    boolean canLoadImage = AndroidLifecycleUtils.canLoadImage(context);
+    if (canLoadImage) {
+      ImageRequest request = ImageRequestBuilder
+              .newBuilderWithSource(uri)
+              .setResizeOptions(new ResizeOptions(1000, 1000))
+              .setAutoRotateEnabled(true)
+              .build();
+      PipelineDraweeControllerBuilder controller = Fresco.newDraweeControllerBuilder()
+              .setImageRequest(request)
+              .setOldController(imageView.getController())
+              .setAutoPlayAnimations(true)
+              .setControllerListener(new BaseControllerListener<ImageInfo>() {
                 @Override
                 public void onFinalImageSet(String id, ImageInfo imageInfo, Animatable animatable) {
                   super.onFinalImageSet(id, imageInfo, animatable);
@@ -71,7 +74,8 @@ public class PhotoPagerAdapter extends PagerAdapter {
                 }
               });
 
-    imageView.setController(controller.build());
+      imageView.setController(controller.build());
+    }
 
     imageView.setOnPhotoTapListener(new OnPhotoTapListener() {
       @Override

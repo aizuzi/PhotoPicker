@@ -17,6 +17,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import me.iwf.photopicker.R;
+import me.iwf.photopicker.utils.AndroidLifecycleUtils;
 
 /**
  * Created by donglua on 15/5/31.
@@ -45,19 +46,22 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
 
   @Override
   public void onBindViewHolder(final PhotoViewHolder holder, final int position) {
+    boolean canLoadImage = AndroidLifecycleUtils.canLoadImage(holder.ivPhoto.getContext());
 
-    Uri uri = Uri.fromFile(new File(photoPaths.get(position)));
+    if(canLoadImage) {
+      Uri uri = Uri.fromFile(new File(photoPaths.get(position)));
 
-    ImageRequest request = ImageRequestBuilder
-            .newBuilderWithSource(uri)
-            .setAutoRotateEnabled(true)
-            .build();
-    PipelineDraweeController controller = (PipelineDraweeController) Fresco.newDraweeControllerBuilder()
-            .setOldController(holder.ivPhoto.getController())
-            .setImageRequest(request)
-            .setAutoPlayAnimations(true)
-            .build();
-    holder.ivPhoto.setController(controller);
+      ImageRequest request = ImageRequestBuilder
+              .newBuilderWithSource(uri)
+              .setAutoRotateEnabled(true)
+              .build();
+      PipelineDraweeController controller = (PipelineDraweeController) Fresco.newDraweeControllerBuilder()
+              .setOldController(holder.ivPhoto.getController())
+              .setImageRequest(request)
+              .setAutoPlayAnimations(true)
+              .build();
+      holder.ivPhoto.setController(controller);
+    }
   }
 
 

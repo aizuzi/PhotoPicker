@@ -29,6 +29,7 @@ import me.iwf.photopicker.adapter.PopupDirectoryListAdapter;
 import me.iwf.photopicker.entity.Photo;
 import me.iwf.photopicker.entity.PhotoDirectory;
 import me.iwf.photopicker.event.OnPhotoClickListener;
+import me.iwf.photopicker.utils.AndroidLifecycleUtils;
 import me.iwf.photopicker.utils.ImageCaptureManager;
 import me.iwf.photopicker.utils.MediaStoreHelper;
 
@@ -196,12 +197,12 @@ public class PhotoPickerFragment extends Fragment {
         if (Math.abs(dy) > SCROLL_THRESHOLD) {
           Fresco.getImagePipeline().pause();
         } else {
-          Fresco.getImagePipeline().resume();
+          resumeRequestsIfNotDestroyed();
         }
       }
       @Override public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
         if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-          Fresco.getImagePipeline().resume();
+          resumeRequestsIfNotDestroyed();
         }
       }
     });
@@ -223,6 +224,13 @@ public class PhotoPickerFragment extends Fragment {
     }
   }
 
+  private void resumeRequestsIfNotDestroyed() {
+    if (!AndroidLifecycleUtils.canLoadImage(this)) {
+      return;
+    }
+
+    Fresco.getImagePipeline().resume();
+  }
 
   public PhotoGridAdapter getPhotoGridAdapter() {
     return photoGridAdapter;
