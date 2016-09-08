@@ -24,6 +24,6 @@ dependencies {
   compile "com.android.support:support-annotations:$supportLibVersion"
   compile "com.nineoldandroids:library:2.4.0"
   compile 'com.facebook.fresco:fresco:0.13.0'
-    compile 'com.facebook.fresco:animated-gif:0.13.0'
+  compile 'com.facebook.fresco:animated-gif:0.13.0'
 }
 
