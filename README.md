@@ -1,5 +1,5 @@
 
-# PhotoPicker
+# PhotoPicker with Fresco
 [![CircleCI](https://circleci.com/gh/donglua/PhotoPicker/tree/master.svg?style=svg)](https://circleci.com/gh/donglua/PhotoPicker/tree/master)
 [![Build Status](https://travis-ci.org/donglua/PhotoPicker.svg?branch=master)](https://travis-ci.org/donglua/PhotoPicker)
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-PhotoPicker-green.svg?style=flat)](https://android-arsenal.com/details/1/2091)
@@ -7,25 +7,6 @@
 [![API](https://img.shields.io/badge/API-14%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=14)
 
 ---
-
-# Example
-![](http://ww2.sinaimg.cn/large/5e9a81dbgw1etra5iu80lj206z0cet8r.jpg)
-![](http://ww2.sinaimg.cn/large/5e9a81dbgw1etra61rnr9j206z0ce3yu.jpg)
-![](http://ww4.sinaimg.cn/large/5e9a81dbgw1etra6efl1hj206z0cewet.jpg)
-![](http://ww3.sinaimg.cn/large/5e9a81dbgw1etra6q2edzj206z0cedgg.jpg)
-
-<p style="float:left;">
- <a href="https://play.google.com/store/apps/details?id=me.iwf.PhotoPickerDemo&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-AC-global-none-all-co-pr-py-PartBadges-Oct1515-1">
- <img HEIGHT="80" WIDTH="270" alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/images/apps/en-play-badge.png" />
- </a>
-</p>
-
----
-
-
-## 衍生版本
-* Fresco版： https://github.com/jing-wu/PhotoPicker
-* 微信UI修改版：https://github.com/glassLake/PhotoPicker
 
 # Usage
 
@@ -40,18 +21,19 @@ dependencies {
     compile 'com.android.support:design:23.4.0'
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.facebook.fresco:fresco:0.13.0'
-    compile 'com.facebook.fresco:animated-gif:0.13.0'
+    compile 'com.facebook.fresco:animated-gif:0.13.0'//Add this if you want play animated images.Without this,animated images will be shown as normal pictures that can not play.
 }
 ```
 * ```appcompat-v7```version >= 23.0.0
 
 ### eclipse
-[![GO HOME](http://ww4.sinaimg.cn/large/5e9a81dbgw1eu90m08v86j20dw09a3yu.jpg)
+![GO HOME](http://ww4.sinaimg.cn/large/5e9a81dbgw1eu90m08v86j20dw09a3yu.jpg)
 
 ### Init Fresco
 ```java
 ImagePipelineConfig config = ImagePipelineConfig.newBuilder(getApplicationContext())
     .setDownsampleEnabled(true)// This option can help prove the performance.
+    //other settings
     .build();
 Fresco.initialize(getApplicationContext(), config);
 ```
