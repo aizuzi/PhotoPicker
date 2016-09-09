@@ -33,7 +33,7 @@
 
 ```groovy
 dependencies {
-    compile 'cn.2crazy.photopicker:PhotoPicker:0.8.10'
+    compile 'cn.2crazy.photopicker:PhotoPicker:0.8.10.1'
     
     compile 'com.android.support:appcompat-v7:23.4.0'
     compile 'com.android.support:recyclerview-v7:23.4.0'
