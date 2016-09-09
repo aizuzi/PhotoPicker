@@ -28,7 +28,7 @@
 
 ```groovy
 dependencies {
-    compile 'cn.2crazy:FrescoPhotoPicker:0.8.10.1'
+    compile 'cn.2crazy.photopicker:FrescoPhotoPicker:0.8.10'
     
     compile 'com.android.support:appcompat-v7:23.4.0'
     compile 'com.android.support:recyclerview-v7:23.4.0'
