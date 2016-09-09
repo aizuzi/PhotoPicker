@@ -53,6 +53,7 @@ public class PhotoPagerAdapter extends PagerAdapter {
     }
 
     boolean canLoadImage = AndroidLifecycleUtils.canLoadImage(context);
+
     if (canLoadImage) {
       ImageRequest request = ImageRequestBuilder
               .newBuilderWithSource(uri)

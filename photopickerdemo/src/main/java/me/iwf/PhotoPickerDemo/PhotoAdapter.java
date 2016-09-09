@@ -46,6 +46,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
 
   @Override
   public void onBindViewHolder(final PhotoViewHolder holder, final int position) {
+
     boolean canLoadImage = AndroidLifecycleUtils.canLoadImage(holder.ivPhoto.getContext());
 
     if(canLoadImage) {

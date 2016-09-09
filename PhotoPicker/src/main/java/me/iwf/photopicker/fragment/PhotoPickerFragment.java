@@ -65,7 +65,7 @@ public class PhotoPickerFragment extends Fragment {
   private ListPopupWindow listPopupWindow;
 
   public static PhotoPickerFragment newInstance(boolean showCamera, boolean showGif,
-      boolean previewEnable, int column, int maxCount, ArrayList<String> originalPhotos) {
+                                                boolean previewEnable, int column, int maxCount, ArrayList<String> originalPhotos) {
     Bundle args = new Bundle();
     args.putBoolean(EXTRA_CAMERA, showCamera);
     args.putBoolean(EXTRA_GIF, showGif);
@@ -99,22 +99,22 @@ public class PhotoPickerFragment extends Fragment {
     boolean showGif = getArguments().getBoolean(EXTRA_GIF);
     mediaStoreArgs.putBoolean(EXTRA_SHOW_GIF, showGif);
     MediaStoreHelper.getPhotoDirs(getActivity(), mediaStoreArgs,
-        new MediaStoreHelper.PhotosResultCallback() {
-          @Override public void onResultCallback(List<PhotoDirectory> dirs) {
-            directories.clear();
-            directories.addAll(dirs);
-            photoGridAdapter.notifyDataSetChanged();
-            listAdapter.notifyDataSetChanged();
-            adjustHeight();
-          }
-        });
+            new MediaStoreHelper.PhotosResultCallback() {
+              @Override public void onResultCallback(List<PhotoDirectory> dirs) {
+                directories.clear();
+                directories.addAll(dirs);
+                photoGridAdapter.notifyDataSetChanged();
+                listAdapter.notifyDataSetChanged();
+                adjustHeight();
+              }
+            });
 
     captureManager = new ImageCaptureManager(getActivity());
   }
 
 
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
-      Bundle savedInstanceState) {
+                                     Bundle savedInstanceState) {
 
     final View rootView = inflater.inflate(R.layout.__picker_fragment_photo_picker, container, false);
 
@@ -159,8 +159,8 @@ public class PhotoPickerFragment extends Fragment {
         int[] screenLocation = new int[2];
         v.getLocationOnScreen(screenLocation);
         ImagePagerFragment imagePagerFragment =
-            ImagePagerFragment.newInstance(photos, index, screenLocation, v.getWidth(),
-                v.getHeight());
+                ImagePagerFragment.newInstance(photos, index, screenLocation, v.getWidth(),
+                        v.getHeight());
 
         ((PhotoPickerActivity) getActivity()).addImagePagerFragment(imagePagerFragment);
       }
@@ -209,7 +209,6 @@ public class PhotoPickerFragment extends Fragment {
 
     return rootView;
   }
-
 
   @Override public void onActivityResult(int requestCode, int resultCode, Intent data) {
     if (requestCode == ImageCaptureManager.REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {

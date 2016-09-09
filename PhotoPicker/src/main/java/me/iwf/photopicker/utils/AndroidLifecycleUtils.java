@@ -1,4 +1,3 @@
-
 package me.iwf.photopicker.utils;
 
 import android.app.Activity;

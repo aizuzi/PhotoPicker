@@ -113,6 +113,7 @@ public class PhotoGridAdapter extends SelectableAdapter<PhotoGridAdapter.PhotoVi
       }
 
       boolean canLoadImage = AndroidLifecycleUtils.canLoadImage(holder.ivPhoto.getContext());
+
       if(canLoadImage) {
         Uri uri = Uri.fromFile(new File(photo.getPath()));
         ImageRequest request = ImageRequestBuilder
@@ -126,6 +127,7 @@ public class PhotoGridAdapter extends SelectableAdapter<PhotoGridAdapter.PhotoVi
                 .setAutoPlayAnimations(true)
                 .build();
         holder.ivPhoto.setController(controller);
+
       }
 
       final boolean isChecked = isSelected(photo);
