@@ -10,7 +10,7 @@ android {
     minSdkVersion 14
     targetSdkVersion 23
     versionCode 1
-    versionName "0.8.10.1"
+    versionName "0.8.10.2"
   }
 }
 
@@ -34,7 +34,7 @@ publish {
   userOrg = 'jing-wu'
   groupId = 'cn.2crazy.photopicker'
   artifactId = 'PhotoPicker'
-  publishVersion = '0.8.10.1'
+  publishVersion = '0.8.10.2'
   desc = 'A photo picker like Wechat.Use Fresco.'
   website = 'https://github.com/jing-wu/PhotoPicker'
 }
