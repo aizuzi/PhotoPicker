@@ -1,7 +1,5 @@
 
 # PhotoPicker with Fresco
-[![CircleCI](https://circleci.com/gh/donglua/PhotoPicker/tree/master.svg?style=svg)](https://circleci.com/gh/donglua/PhotoPicker/tree/master)
-[![Build Status](https://travis-ci.org/donglua/PhotoPicker.svg?branch=master)](https://travis-ci.org/donglua/PhotoPicker)
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-PhotoPicker-green.svg?style=flat)](https://android-arsenal.com/details/1/2091)
 [ ![Download](https://api.bintray.com/packages/jing-wu/maven/PhotoPicker/images/download.svg) ](https://bintray.com/jing-wu/maven/PhotoPicker/_latestVersion)
 [![API](https://img.shields.io/badge/API-14%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=14)
@@ -14,7 +12,7 @@
 
 ```groovy
 dependencies {
-    compile 'cn.2crazy.photopicker:PhotoPicker:0.8.10.1'
+    compile 'cn.2crazy.photopicker:PhotoPicker:0.8.10.3'
     
     compile 'com.android.support:appcompat-v7:23.4.0'
     compile 'com.android.support:recyclerview-v7:23.4.0'
