@@ -37,17 +37,7 @@ publish {
   userOrg = 'jing-wu'
   groupId = 'cn.2crazy.photopicker'
   artifactId = 'PhotoPicker'
-  publishVersion = '0.9.0'
+  publishVersion = '0.9.3'
   desc = 'A photo picker like Wechat.Use Fresco.'
   website = 'https://github.com/jing-wu/PhotoPicker'
-}
-
-apply plugin: 'com.novoda.bintray-release'
-publish {
-  userOrg = 'donglua'
-  groupId = 'me.iwf.photopicker'
-  artifactId = 'PhotoPicker'
-  publishVersion = '0.9.1'
-  desc = 'Photo Picker'
-  website = 'https://github.com/donglua/PhotoPicker'
 }
