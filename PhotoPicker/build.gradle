@@ -3,19 +3,22 @@ apply plugin: 'com.novoda.bintray-release'//添加
 
 android {
   compileSdkVersion 25
-  buildToolsVersion "25"
+  buildToolsVersion "25.0.1"
   resourcePrefix "__picker_"
 
+  dexOptions {
+    javaMaxHeapSize "4g"
+  }
   defaultConfig {
     minSdkVersion 14
-    targetSdkVersion 24
-    versionCode 1
-    versionName "0.9.0"
+    targetSdkVersion 25
+  }
+  lintOptions {
+    abortOnError false
   }
 }
-
 ext {
-  supportLibVersion = "25.0.0"
+  supportLibVersion = "25.0.1"
 }
 dependencies {
   compile "com.android.support:support-v4:$supportLibVersion"
@@ -39,3 +42,12 @@ publish {
   website = 'https://github.com/jing-wu/PhotoPicker'
 }
 
+apply plugin: 'com.novoda.bintray-release'
+publish {
+  userOrg = 'donglua'
+  groupId = 'me.iwf.photopicker'
+  artifactId = 'PhotoPicker'
+  publishVersion = '0.9.1'
+  desc = 'Photo Picker'
+  website = 'https://github.com/donglua/PhotoPicker'
+}
