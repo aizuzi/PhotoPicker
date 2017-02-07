@@ -31,8 +31,8 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:23.4.0'
     compile 'com.android.support:design:23.4.0'
     compile 'com.nineoldandroids:library:2.4.0'
-    compile 'com.facebook.fresco:fresco:1.0.0'
-    compile 'com.facebook.fresco:animated-gif:1.0.0'//Add this if you want play animated images.Without this,animated images will be shown as normal pictures that can not play.
+    compile 'com.facebook.fresco:fresco:1.0.1'
+    compile 'com.facebook.fresco:animated-gif:1.0.1'//Add this if you want play animated images.Without this,animated images will be shown as normal pictures that can not play.
 }
 ```
 * ```appcompat-v7```version >= 23.0.0
