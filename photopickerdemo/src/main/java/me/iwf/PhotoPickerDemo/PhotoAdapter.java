@@ -1,7 +1,6 @@
 package me.iwf.PhotoPickerDemo;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -60,7 +59,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
   @Override
   public void onBindViewHolder(final PhotoViewHolder holder, final int position) {
 
-    boolean canLoadImage = AndroidLifecycleUtils.canLoadImage(holder.ivPhoto.getContext());
+    boolean canLoadImage = holder.ivPhoto != null && AndroidLifecycleUtils.canLoadImage(holder.ivPhoto.getContext());
 
     if(canLoadImage) {
       Uri uri = Uri.fromFile(new File(photoPaths.get(position)));
