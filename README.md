@@ -25,14 +25,14 @@
 
 ```groovy
 dependencies {
-    compile 'cn.2crazy.photopicker:PhotoPicker:0.9.5'
+    compile 'cn.2crazy.photopicker:PhotoPicker:0.9.8'
     
-    compile 'com.android.support:appcompat-v7:23.4.0'
-    compile 'com.android.support:recyclerview-v7:23.4.0'
-    compile 'com.android.support:design:23.4.0'
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support:recyclerview-v7:25.3.1'
+    compile 'com.android.support:design:25.3.1'
     compile 'com.nineoldandroids:library:2.4.0'
-    compile 'com.facebook.fresco:fresco:1.0.1'
-    compile 'com.facebook.fresco:animated-gif:1.0.1'//Add this if you want play animated images.Without this,animated images will be shown as normal pictures that can not play.
+    compile 'com.facebook.fresco:fresco:1.3.0'
+    compile 'com.facebook.fresco:animated-gif:1.3.0'//Add this if you want play animated images.Without this,animated images will be shown as normal pictures that can not play.
 }
 ```
 * ```appcompat-v7```version >= 23.0.0
@@ -138,6 +138,7 @@ PhotoPreview.builder()
 -dontwarn okhttp3.**
 -dontwarn javax.annotation.**
 -dontwarn com.android.volley.toolbox.**
+-dontwarn com.facebook.infer.**
 # nineoldandroids
 -keep interface com.nineoldandroids.view.** { *; }
 -dontwarn com.nineoldandroids.**

@@ -17,14 +17,14 @@ repositories {
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.1"
+    buildToolsVersion "25.0.2"
 
     defaultConfig {
         applicationId "me.iwf.PhotoPickerDemo"
         minSdkVersion 14
         targetSdkVersion 25
         versionCode 15
-        versionName "0.9.1"
+        versionName "0.9.8"
     }
     buildTypes {
         release {
